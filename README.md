@@ -1,6 +1,6 @@
 # Organizer
 
-This project was created to showcase your skills.
+This project was created to showcase my skills.
 In my work i used RxJS, pipes, a third-party library (momentjs) and also some of the delights of TypeScript
 
 ## Run the program
