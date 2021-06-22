@@ -1,13 +1,12 @@
 <div class="container">
-  <header>
-    <selector></selector>
-  </header>
+  <div class="navbar">
+    <h2>Organizer</h2>
 
-  <main>
-    <calendar></calendar>
-  </main>
-
-  <div>
-    <organizer></organizer>
+    <nav>
+      <button class="btn btn-primary" routerLink="" [disabled]="home">Home</button>
+      <button class="btn btn-primary" routerLink="/about" [disabled]="about">About</button>
+    </nav>
   </div>
+
+  <router-outlet></router-outlet>
 </div>

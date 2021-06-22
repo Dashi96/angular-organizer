@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core'
-import {DateService, Task} from '../../shared'
+import {DateService, Task} from '../../../../shared'
 import {FormControl, FormGroup, Validators} from '@angular/forms'
-import {TaskService} from '../../shared/services/task.service'
+import {TaskService} from '../../../../shared/services/task.service'
 import {switchMap} from 'rxjs/operators'
 
 @Component({
@@ -19,7 +19,7 @@ export class OrganizerComponent implements OnInit {
     private taskService: TaskService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.dateService.date.pipe(
       switchMap(value => this.taskService.load(value))
     ).subscribe(tasks => {

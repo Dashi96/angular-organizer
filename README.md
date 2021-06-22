@@ -1,7 +1,7 @@
 # Organizer
 
 This project was created to showcase my skills.
-In my work i used RxJS, pipes, a third-party library (momentjs) and also some of the delights of TypeScript
+In my work i used RxJS, pipes, a third-party library (momentjs), routing and also some of the delights of TypeScript
 
 ## Run the program
 

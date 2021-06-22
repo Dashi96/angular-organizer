@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {DateService} from '../../shared';
+import {DateService} from '../../../../shared';
 
 @Component({
   selector: 'selector',

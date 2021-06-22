@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {DateService, Week} from '../../shared';
+import {DateService, Week} from '../../../../shared';
 import * as moment from 'moment';
 
 @Component({
@@ -13,7 +13,7 @@ export class CalendarComponent implements OnInit {
 
   constructor(private dateService: DateService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.dateService.date.subscribe(this.generate.bind(this));
   }
 
