@@ -10,8 +10,7 @@ import {switchMap} from 'rxjs/operators'
   styleUrls: ['./organizer.component.less']
 })
 export class OrganizerComponent implements OnInit {
-
-  form: FormGroup = new FormGroup({})
+  form: FormGroup | any
   tasks: Task[] = []
 
   constructor(
@@ -40,8 +39,8 @@ export class OrganizerComponent implements OnInit {
     }
 
     this.taskService.create(task).subscribe(task => {
-        this.tasks.push(task)
-        this.form.reset()
+      this.tasks.push(task)
+      this.form.reset()
     }, err => console.error(err))
   }
 
