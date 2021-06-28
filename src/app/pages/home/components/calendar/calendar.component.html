@@ -23,7 +23,6 @@
           [class.active]="day.active"
         >
           {{ day.value | moment: 'ddd DD' }}
-          <p *ngIf="day.tasksCount">({{ day.tasksCount }})</p>
         </span>
       </td>
     </tr>

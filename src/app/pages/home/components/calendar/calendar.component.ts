@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core'
-import {DateService, Task, Week} from '../../../../shared'
-import {TaskService} from '../../../../shared/services/task.service'
-import {finalize} from 'rxjs/operators'
+import {DateService, Week} from '../../../../shared'
 import * as moment from 'moment'
 
 @Component({
@@ -11,23 +9,11 @@ import * as moment from 'moment'
 })
 export class CalendarComponent implements OnInit {
   calendar: Week[] = []
-  tasks: Task[] = []
 
-  constructor(
-    private dateService: DateService,
-    private taskService: TaskService
-  ) { }
+  constructor(private dateService: DateService) { }
 
   ngOnInit() {
-    this.taskService.loadAllTasks()
-      .pipe(
-        finalize(() => {
-          this.dateService.date.subscribe(this.generate.bind(this))
-        })
-      )
-      .subscribe(tasks => {
-        this.tasks = tasks
-      }, err => console.error(err))
+    this.dateService.date.subscribe(this.generate.bind(this));
   }
 
   generate(now: moment.Moment) {
@@ -47,20 +33,12 @@ export class CalendarComponent implements OnInit {
             const active = moment().isSame(value, 'date');
             const disabled = !now.isSame(value, 'month');
             const selected = now.isSame(value, 'date');
-            let tasksCount = 0;
-
-            this.tasks.forEach(item => {
-              if (value.format('DD-MM-YYYY') === item.id) {
-                tasksCount = Object.values(item).length - 1
-              }
-            })
 
             return {
               value,
               active,
               disabled,
-              selected,
-              tasksCount
+              selected
             }
           })
       })

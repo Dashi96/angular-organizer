@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core'
-import {DateService, Task} from '../../../../shared'
+import {DateService, DestroyService, TaskService, Task} from '../../../../shared'
 import {FormControl, FormGroup, Validators} from '@angular/forms'
-import {TaskService} from '../../../../shared/services/task.service'
-import {switchMap} from 'rxjs/operators'
+import {switchMap, takeUntil} from 'rxjs/operators'
 
 @Component({
   selector: 'organizer',
@@ -15,15 +14,19 @@ export class OrganizerComponent implements OnInit {
 
   constructor(
     public dateService: DateService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private destroy$: DestroyService
   ) { }
 
   ngOnInit() {
-    this.dateService.date.pipe(
-      switchMap(value => this.taskService.load(value))
-    ).subscribe(tasks => {
-      this.tasks = tasks
-    })
+    this.dateService.date
+      .pipe(
+        switchMap(value => this.taskService.load(value)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(tasks => {
+        this.tasks = tasks
+      }, err => console.error(err))
 
     this.form = new FormGroup({
       title: new FormControl('', Validators.required)
@@ -38,15 +41,23 @@ export class OrganizerComponent implements OnInit {
       date: this.dateService.date.value.format('DD-MM-YYYY')
     }
 
-    this.taskService.create(task).subscribe(task => {
-      this.tasks.push(task)
-      this.form.reset()
-    }, err => console.error(err))
+    this.taskService.create(task)
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(task => {
+        this.tasks.push(task)
+        this.form.reset()
+      }, err => console.error(err))
   }
 
   remove(task: Task) {
-    this.taskService.remove(task).subscribe(() => {
-      this.tasks = this.tasks.filter(item => item.id !== task.id)
-    }, err => console.error(err))
+    this.taskService.remove(task)
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.tasks = this.tasks.filter(item => item.id !== task.id)
+      }, err => console.error(err))
   }
 }

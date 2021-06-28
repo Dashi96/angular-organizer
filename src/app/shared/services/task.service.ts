@@ -27,20 +27,6 @@ export class TaskService {
       )
   }
 
-  loadAllTasks(): Observable<Task[]> {
-    return this.http
-      .get<Task[]>(`${url}.json`)
-      .pipe(
-        map(tasks => {
-          if (!tasks) {
-            return []
-          } else {
-            return Object.keys(tasks).map((key: any) => ({...tasks[key], id:key}))
-          }
-        })
-      )
-  }
-
   create(task: Task): Observable<Task> {
     return this.http
       .post<CreateResponse>(`${url}/${task.date}.json`, task)
