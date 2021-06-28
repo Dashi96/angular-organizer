@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core'
-import {DateService, Week} from '../../../../shared'
+import {DateService, DestroyService, Week} from '../../../../shared'
+import {takeUntil} from 'rxjs/operators';
 import * as moment from 'moment'
 
 @Component({
@@ -10,10 +11,17 @@ import * as moment from 'moment'
 export class CalendarComponent implements OnInit {
   calendar: Week[] = []
 
-  constructor(private dateService: DateService) { }
+  constructor(
+    public dateService: DateService,
+    private destroy$: DestroyService
+  ) { }
 
   ngOnInit() {
-    this.dateService.date.subscribe(this.generate.bind(this));
+    this.dateService.date
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(this.generate.bind(this));
   }
 
   generate(now: moment.Moment) {
